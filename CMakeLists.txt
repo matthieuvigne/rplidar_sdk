@@ -13,10 +13,10 @@ option(CROSS_COMPILE "True to cross compile to arm, false to compile on current 
 
 if(CROSS_COMPILE)
 	set(CMAKE_CXX_COMPILER "arm-linux-gnueabihf-g++")
-	set(LIBRARY_NAME ${PROJECT_NAME})
+	set(LIBRARY_NAME ${PROJECT_NAME}_arm)
 else()
 	set(CMAKE_CXX_COMPILER "g++")
-	set(LIBRARY_NAME ${PROJECT_NAME}_intel)
+	set(LIBRARY_NAME ${PROJECT_NAME})
 endif()
 
 # Set compiler flags.
