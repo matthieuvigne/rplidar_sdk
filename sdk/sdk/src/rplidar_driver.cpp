@@ -2266,7 +2266,7 @@ void RPlidarDriverSerial::disconnect()
     stop();
 }
 
-u_result RPlidarDriverSerial::connect(const char * port_path, _u32 baudrate, _u32 flag)
+u_result RPlidarDriverSerial::connect(const char * port_path, _u32 baudrate, _u32 flag, bool requireMotorControl)
 {
     if (isConnected()) return RESULT_ALREADY_DONE;
 
@@ -2284,7 +2284,9 @@ u_result RPlidarDriverSerial::connect(const char * port_path, _u32 baudrate, _u3
 
     _isConnected = true;
 
-    checkMotorCtrlSupport(_isSupportingMotorCtrl);
+    checkMotorCtrlSupport(_isSupportingMotorCtrl, 100U);
+    if (requireMotorControl && !_isSupportingMotorCtrl)
+        return RESULT_INVALID_DATA;
     stopMotor();
 
     return RESULT_OK;
@@ -2308,7 +2310,7 @@ void RPlidarDriverTCP::disconnect()
     _chanDev->close();
 }
 
-u_result RPlidarDriverTCP::connect(const char * ipStr, _u32 port, _u32 flag)
+u_result RPlidarDriverTCP::connect(const char * ipStr, _u32 port, _u32 flag, bool requireMotorControl)
 {
     if (isConnected()) return RESULT_ALREADY_DONE;
 
